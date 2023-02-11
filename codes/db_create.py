@@ -22,10 +22,10 @@ CREATE TABLE IF NOT EXISTS TimeTable (
   Year TEXT NOT NULL,
   Dept TEXT NOT NULL,
   Section TEXT NOT NULL,
-  loc TEXT
+  loc TEXT,ID TEXT
 )
 ''')
-# cursor.execute("Drop table timetable")
+cursor.execute("Drop table timetable")
 # cursor.execute("Select * from TimeTable")
 # res = cursor.fetchall()
 # print(res)
