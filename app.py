@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, session, url_for
 import pandas as pd
 import sqlite3
 import os
-import openpyxl
+import openpyxl, time
 
 images=os.path.join('static','images')
 
@@ -90,20 +90,22 @@ def dashboard():
     # Connect to the database
 
     # Render the dashboard template with the username and message
-    return render_template('dashboard.html', username=username[0], fav_icon=fav_icon, load_img=load_img)
+    return render_template('dashboard.html', fav_icon=fav_icon, load_img=load_img, data="true")
 
 @app.route('/display',methods=['GET', 'POST'])
 def display():
     conn=sqlite3.connect("users.db")
     cur=conn.cursor()
-    cur.execute("select loc from timetable where year = ? and dept = ? and section = ?",(year,dept,section))
+    cur.execute("select loc, id from timetable where year = ? and dept = ? and section = ?",(year,dept,section))
     data=cur.fetchone()
     # print(data[0])
     if(data == None):
         return "No timetable provided. Contact your administrator"
-    else:
+    elif(data[1] == "1"):
         df = pd.read_excel(data[0])
-        return render_template("display.html",  tables=[df.to_html(classes='data')], titles=df.columns.values)
+        return render_template("display.html",  tables=[df.to_html(classes='data')], titles=df.columns.values, data="1")
+    else:
+        return render_template("display.html", iframe=data[0], data="2")
 
 @app.route("/upload-file", methods=["POST"])
 def upload_file():
@@ -114,7 +116,7 @@ def upload_file():
         os.rename(os.path.join("files", file.filename), os.path.join("files", year+dept+section+".xlsx"))
         conn = sqlite3.connect('users.db')
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO TimeTable (Year, Dept, Section, loc) VALUES (?, ?, ?, ?)", (year, dept, section, "files/"+ year+dept+section+".xlsx"))
+        cursor.execute("INSERT INTO TimeTable (Year, Dept, Section, loc, id) VALUES (?, ?, ?, ?, ?)", (year, dept, section, "files/"+ year+dept+section+".xlsx", "1"))
         conn.commit()
         conn.close()
         return "File uploaded successfully!"
@@ -141,7 +143,24 @@ def update():
             section = request.form['section']
             print(year)
             return render_template("upload.html")
-        
+
+def c2embed(link):
+    # Replace "edit" with "pubhtml" in the link
+    embedded_link = link.replace("edit", "pubhtml")
+    
+    return embedded_link
+@app.route("/embed_upload", methods=['POST', 'GET'])
+def embed_upload():
+    if(request.method == "POST"):
+        link = request.form.get("google-sheet-link")
+        link = c2embed(link)
+        conn = sqlite3.connect('users.db')
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO TimeTable (Year, Dept, Section, loc, id) VALUES (?, ?, ?, ?, ?)", (year, dept, section, link, "2"))
+        conn.commit()
+        conn.close()
+        time.sleep(2)
+        return redirect("/dashboard")
     
 
 if __name__ == '__main__':

@@ -47,7 +47,8 @@ $( document ).ready(function() {
                     success: function (response) {
                         containerProg.option('displayNumber', false);
                         msgHolder.show().html('File upload done.');
-                        console.log(response);
+                        // console.log(response);
+                        setTimeout(function(){window.location.href="/dashboard"},6000);
                     },
                     xhr: function () {
                         var xhr = new window.XMLHttpRequest();
@@ -66,7 +67,7 @@ $( document ).ready(function() {
                             let msg = `<span style="color:whitesmoke;">File <u><b>${file.name}</b></u> has been uploaded successfully.</span>`;
                             feedback.innerHTML = msg;
                             document.getElementById("next1").hidden=false;
-                            
+                            setTimeout(redirect, 3000);
                         }
                         return xhr;
                     }
