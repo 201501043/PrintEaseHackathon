@@ -141,6 +141,7 @@ def update():
             section = request.form['section']
             print(year)
             return render_template("upload.html")
+        
     
 
 if __name__ == '__main__':
