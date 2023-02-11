@@ -60,7 +60,7 @@ def login():
         
         if user:
             session['username'] = useremail
-            return redirect('/dashboard')
+            return render_template("dashboard.html", fav_icon=fav_icon, load_img=load_img, data="true")
         return "Invalid username or password"
     return render_template('index.html', fav_icon=fav_icon, load_img=load_img)
 

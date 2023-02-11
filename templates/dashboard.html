@@ -51,7 +51,7 @@
   </form> -->
   <a href="/login" style="text-decoration: none; color:white;" id="admin">Admin</a>
   <img src="{{load_img}}" id="loading">
-  <a href="/logout" style="text-decoration: none;"><button class="button logout">
+  <a href="/logout" style="text-decoration: none;" id="loggedin"><button class="button logout">
      Log out </button>
     </a>
   <!-- <h3 style="color:white; display: none;" id="loggedin">You are logged in as Admin</h3> -->
@@ -169,7 +169,11 @@
         // child.style.textDecoration = "none";
         // child.style.color = "white";
         // document.getElementById("body").insertAdjacentElement("afterbegin", child);
-      }
+    }
+    else if("{{data}} == 'false"){
+      document.getElementById("admin").style.display = "block";
+        document.getElementById("loggedin").style.display = "none";
+    }
   </script>
 </body>
 

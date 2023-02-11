@@ -363,8 +363,8 @@
     /*button css */
     .logout {
       position: sticky;
-      margin-top: 6px;
-      left: 1350px;
+      margin-top: 50px;
+      margin-left:20px;
       width: 180px;
       height: 40px;
       display: inline-block;
@@ -372,7 +372,7 @@
       border-radius: 4em;
       box-sizing: border-box;
       text-decoration: none;
-      font-family: "Gill Sans", sans-serif;
+      /* font-family: "Gill Sans", sans-serif; */
       color: black;
       text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
       text-align: center;
@@ -381,6 +381,75 @@
       font-size: 20px;
       line-height: 1.7;
     }
+
+    .button {
+  min-width: 225px;
+  min-height: 40px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 22px;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+  font-weight: 700;
+  color: #313133;
+  background: #4FD1C5;
+background: linear-gradient(90deg, rgba(129,230,217,1) 0%, rgba(79,209,197,1) 100%);
+  border: none;
+  border-radius: 1000px;
+  box-shadow: 12px 12px 24px rgba(79,209,197,.64);
+  transition: all 0.3s ease-in-out 0s;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  padding: 10px;
+  }
+
+button::before {
+content: '';
+  border-radius: 1000px;
+  min-width: calc(300px + 12px);
+  min-height: calc(60px + 12px);
+  border: 6px solid #00FFCB;
+  box-shadow: 0 0 60px rgba(0,255,203,.64);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: all .3s ease-in-out 0s;
+}
+
+.button:hover, .button:focus {
+  color: #313133;
+  transform: translateY(-6px);
+}
+
+button:hover::before, button:focus::before {
+  opacity: 0;
+}
+
+button::after {
+  content: '';
+  width: 30px; height: 30px;
+  border-radius: 100%;
+  border: 6px solid #00FFCB;
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: ring 1.5s infinite;
+}
+
+button:hover::after, button:focus::after {
+  animation: none;
+  display: none;
+}
+
+input[type="text"]::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #301f1f;
+  opacity: 1; /* Firefox */
+}
+
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -391,9 +460,9 @@
 
 <body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/radialIndicator/1.4.0/radialIndicator.js"></script>
-  <a href="/logout"><button class="btn btn-info btn-lg logout">
-    <span class="glyphicon glyphicon-log-out"></span> Log out </button></div>
-    </a>
+  <a href="/logout" style="text-decoration: none;" id="loggedin"><button class="button logout">
+    Log out </button>
+   </a>
   <!--upload card-->
   <div class="section">
     <div class="container">
@@ -404,42 +473,7 @@
               <div class="card-3d-wrapper">
                 <div class="card-front">
                   <div class="center-wrap">
-                    <!--ques3-->
-                    <!-- <div class="section" id="ques3" hidden>
-        <label>
-          <h2>How do you want to print?</h2><br>
-          <h4><input type="radio" name="side" value=0 checked>Front And Back&emsp;
-          <input type="radio" name="side" value=1>Single Side</h4>
-          <div>
-          <button onclick="back3()" class="btn mt-4" id="back3" >Back</button>
-          <button onclick="next4()" class="btn mt-4" id="next4" >Proceed</button> 
-        </div>
-        </label>
-      </div>   -->
-                    <!--ques2-->
-                    <!-- <div class="section" id="ques2" hidden>
-    <label>
-      <h2>How do you want to print?</h2><br>
-      <h4><input type="radio" name="side" value=0 checked>Black and White&emsp;
-      <input type="radio" name="side" value=1>Colour</h4>
-      <div>
-      <button onclick="back2()" class="btn mt-4" id="back2" >Back</button>
-      <button onclick="next3()" class="btn mt-4" id="next3" >Next</button> 
-    </div>
-    </label>
-  </div>   -->
-                    <!--ques1-->
-                    <!-- <div class="section" id="ques1" hidden>
-  <label>
-    <h2>How many copies do you want?</h2><br>
-    <h1><input type="number" name="quantity" min="1" max="10" required value="1">
-    </h1><br>
-    <div>
-      <button onclick="back1()" class="btn mt-4" id="back1" >Back</button>
-      <button onclick="next2()" class="btn mt-4" id="next2" >Next</button> 
-    </div>
-  </label>
-</div> -->
+          
                     <!--upload-->
                     <div class="section" id="upload">
                       <h4 class="mb-4 pb-3" style="text-align:center;position:relative;font-size: 25px;" id="infotext">
@@ -450,6 +484,17 @@
                           <div class="rad-cntnt">Click here to<br> select a file.</div>
                           <input type="file" id="prgFileSelector" name="file" />
                         </div>
+                        <!-- <br><br>
+                        <div style="width: 440px; height: 1px; border-bottom:1px solid black;"></div>
+                        <br>
+                        <h4>OR</h4>
+                        <form action="" method="post" class="form-group">
+                          <input type="input" id="google-sheet-link" placeholder="Enter Link"/>
+                          <br>
+                          <div style="display: block;">
+                            <input type="submit" value="Submit"/>
+                          </div>
+                        </form> -->
                         <div class="form-group mt-2">
                           <div id="feedback" class="indict">
                           </div>
@@ -457,13 +502,28 @@
                         </div>
                       </div>
                     </div>
+                     
+                        <div style="width: 440px; height: 1px; border-bottom:1px solid black;"></div>
+                        <br>
+                        <h4>OR</h4>
+                        <form action="/embed_upload" method="post" class="form-group">
+                          <input type="text" id="google-sheet-link" placeholder="Enter Link" style="color: #1f2029;"/>
+                          <br>
+                          <br>
+                          <div style="display: block;">
+                            <input type="submit" value="Submit" style="background-color: #092145; border:none; outline:none;border-radius: 10px; color:whitesmoke"/>
+                          </div>
+                        </form>
 
                   </div>
                 </div>
               </div>
             </div>
+            
           </div>
+          
         </div>
+        
       </div>
     </div>
   </div>
