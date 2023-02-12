@@ -1,43 +1,127 @@
-<!-- <html>
-  <head>
-    <title>Data from Excel</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.3.1/css/fontawesome.min.css" integrity="sha384-QYIZto+st3yW+o8+5OHfT6S482Zsvz2WfOzpFSXMF9zqeLcFV0/wlZpMtyFcZALm" crossorigin="anonymous"> -->
 
+  <link rel="stylesheet" href="static\index_style.css">
 
-
-</head>
-
-  <body style="    background-color: #1F2029";>
-    <div style="margin-top: 18%;  ">
-      <table style="border:1px solid black;margin-left:auto;margin-right:auto;">
-    <table class="center" style="margin-left: auto;">
-    <iframe src="https://docs.google.com/spreadsheets/d/1imyk85dGOq23YidKMh2KsdymkoF1Ef34/pubhtml?usp=sharing&ouid=108317268897548490108&rtpof=true&sd=true" width="100%" height="200px"></iframe>    
-  </body>
-</html> -->
-<html>
-  <head>
-    <title>Data from Excel</title>
-  </head>
-  <body>
-    <div id="excel">
-      {% for table in tables %}
-        {{ table|safe }}
-      {% endfor %}
-    </div>
-    <div id="iframe">
-      <iframe src="{{iframe}}" width="100%" height="180"></iframe>
-    </div>
+    <title>SCHEDULER</title>
+    <link rel="icon" type="image/x-icon" href="{{fav_icon}}">
     <script>
-      if("{{data}}" == "1"){
-        console.log("excel working")
-        document.getElementById("excel").style.display = "block";
-        document.getElementById("iframe").style.display = "none"
-      }
-      else{
-        console.log("iframe working")
-        document.getElementById("excel").style.display = "none";
-        document.getElementById("iframe").style.display = "block"
-        // document.getElementById('iframe').innerHTML = "{{iframe}}"        
-      }
+      
+      console.log("{{data}}");
+      if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD) {
+        window.location="http://127.0.0.1:5000";
+}
     </script>
-  </body>
+    <style>
+      .logout {
+      position: sticky;
+      margin-top: 50px;
+      /* float: left; */
+      margin-left: 15px;
+      width: 180px;
+      height: 40px;
+      display: block;
+      border: 0.16em solid rgba(203, 244, 21, 0);
+      border-radius: 4em;
+      box-sizing: border-box;
+      text-decoration: none;
+      font-family: 'Nunito', sans-serif;
+      color: black;
+      text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
+      text-align: center;
+      transition: all 0.2s;
+      font-style: italic;
+      font-size: 20px;
+      line-height: 1.7;
+    }
+
+
+    
+    </style>
+</head>
+<body id="body">
+  <!-- <form action="/admin" method="get">
+    <input class="btn btn-light" style="float:right;background-color: #1F2029; box-shadow: none; color:white;" value="Admin" type="submit"/>
+  </form> -->
+  <a href="/login" style="text-decoration: none; color:white;" id="admin">Admin</a>
+  <img src="{{load_img}}" id="loading">
+  <a href="/logout" style="text-decoration: none;" id="loggedin"><button class="button logout">
+     Log out </button>
+    </a>
+  <!-- <h3 style="color:white; display: none;" id="loggedin">You are logged in as Admin</h3> -->
+  <div class="content">
+    <div class="section">
+      <div class="container">
+        <div class="row full-height justify-content-center">
+          <div class="col-12 text-center align-self-center py-5">
+            <img src="{{load_img}}" style="height:80px;width:auto;">
+            <h3 style="color:white; display: none;" id="loggedin">You are logged in as Admin</h3>
+            <div class="section pb-5 pt-5 pt-sm-2 text-center">
+              <div id="excel">
+                {% for table in tables %}
+                  {{ table|safe }}
+                {% endfor %}
+              </div>
+              <div id="iframe">
+                <iframe src="{{iframe}}" width="100%" height="180"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    setTimeout(function() {
+      document.getElementById("loading").style.display = "none";
+      document.querySelector(".content").style.display = "block";
+    }, 3000);
+  </script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    if("{{data}}" == "1"){
+      console.log("excel working")
+      document.getElementById("excel").style.display = "block";
+      document.getElementById("iframe").style.display = "none"
+    }
+    else{
+      console.log("iframe working")
+      document.getElementById("excel").style.display = "none";
+      document.getElementById("iframe").style.display = "block"
+      // document.getElementById('iframe').innerHTML = "{{iframe}}"        
+    }
+  </script>
+  <script>
+  if("{{data}}" == "true"){
+        console.log("{{true}}");
+        document.getElementById("admin").style.display = "none";
+        document.getElementById("loggedin").style.display = "block";
+        // var child = document.createElement("a");
+        // child.href="/login";
+        // child.style.textDecoration = "none";
+        // child.style.color = "white";
+        // document.getElementById("body").insertAdjacentElement("afterbegin", child);
+    }
+    else if("{{true}} == 'false"){
+      document.getElementById("admin").style.display = "block";
+        document.getElementById("loggedin").style.display = "none";
+    }
+  </script>
+</body>
+
 </html>
+<!-- <div id="excel">
+  {% for table in tables %}
+    {{ table|safe }}
+  {% endfor %}
+</div>
+<div id="iframe">
+  <iframe src="{{iframe}}" width="100%" height="180"></iframe>
+</div> -->

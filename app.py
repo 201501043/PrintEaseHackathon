@@ -103,9 +103,9 @@ def display():
         return "No timetable provided. Contact your administrator"
     elif(data[1] == "1"):
         df = pd.read_excel(data[0])
-        return render_template("display.html",  tables=[df.to_html(classes='data')], titles=df.columns.values, data="1")
+        return render_template("display.html",  tables=[df.to_html(classes='data')], titles=df.columns.values, data="1", fav_icon=fav_icon, load_img=load_img, true="true")
     else:
-        return render_template("display.html", iframe=data[0], data="2")
+        return render_template("display.html", iframe=data[0], data="2", fav_icon=fav_icon, load_img=load_img, true="false")
 
 @app.route("/upload-file", methods=["POST"])
 def upload_file():
